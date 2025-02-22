@@ -11,4 +11,5 @@ String savePost(Post post);
 String updatePost(Post post,int id);
 String deletePost (int id);
 List<Post> getAllPosts();
+List<Post> findByUser_Id(int userId);
 }
