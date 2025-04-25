@@ -4,11 +4,14 @@ import com.google.appgramtest.models.User;
 import com.google.appgramtest.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class UserController {
     @Autowired
     UserService userService;
@@ -18,13 +21,15 @@ public class UserController {
     }
 
     @PostMapping("/user/create")
-    public String saveUser(@Valid@RequestBody User user){
-       return userService.saveUser(user);
+    public String saveUser(@ModelAttribute User user, @RequestParam("image") MultipartFile file) {
+        return userService.saveUser(user, file);
+    }
 
-   }
-   @GetMapping("/user/{id}")
-    public User getUser(@PathVariable int id){
-       return userService.getUser(id);
+    @GetMapping("/user/{name}")
+    public String getUser(@PathVariable String name, Model model){
+       User user=userService.getUserByName(name);
+       model.addAttribute("user",user);
+        return "profile";
    }
    @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable int id,@Valid @RequestBody User user){

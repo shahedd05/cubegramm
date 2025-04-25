@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import java.util.List;
 
 @Entity
@@ -22,7 +20,6 @@ public class User {
     private int id;
     @Size(min = 2,max = 20,message = "The Naame Must Be At Least 2 Letters And Maximam 20 Letters")
     @NotBlank(message = "The Name Must Not Be Blank")
-    @UniqueElements
     private String name;
     private String bio;
     @Email(message = "Invalid Email Format")
@@ -36,6 +33,12 @@ public class User {
     private int following;
     private int postNum;
     @OneToMany(mappedBy ="user",cascade =CascadeType.ALL,orphanRemoval = true)
-    private List<Post> post;
+    private List<Post> posts;
+    @NotBlank
+    private String profile_image;
+    private boolean is_public;
+
+
+
 }
 
